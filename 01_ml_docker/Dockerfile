@@ -35,6 +35,7 @@ RUN pip3 install accelerate==0.23.0
 
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get install -y graphviz
+RUN apt-get install python3-tk -y
 
 RUN set -x \
      && apt-get clean && rm -rf /var/lib/apt/lists/* \
