@@ -45,6 +45,11 @@ The TensorFlow version can be found [here](https://github.com/PXLAIRobotics/PXL_
 - fastapi: 0.103.2
 - onnx: 1.14.1
 
+#### Jupyter AI support
+- jupyter_ai: 2.6.0
+
+(more info about installation and usage here: https://github.com/jupyterlab/jupyter-ai)
+
 _**Note**: This is just a snapshot of the libraries included. There are many more utilities and libraries embedded within the container._
 
 
