@@ -35,7 +35,7 @@ RUN pip3 install accelerate==0.23.0
 RUN pip3 install diffusers==0.24.0
 
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get install -y graphviz
+RUN apt-get update && apt-get install -y graphviz
 RUN apt-get install python3-tk -y
 
 RUN pip3 install jupyter_ai==2.6.0
