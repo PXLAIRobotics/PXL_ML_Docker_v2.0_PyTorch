@@ -19,7 +19,8 @@ COPY requirements.txt /tmp/requirements.txt
 RUN pip3 install --no-cache-dir --ignore-installed -r /tmp/requirements.txt
 
 RUN pip3 install PDPbox==0.3.0
-RUN pip3 install fastai==2.7.13
+# RUN pip3 install fastai==2.7.13
+RUN pip3 install spacy==3.7.2
 RUN pip3 install lightning==2.1.2
 RUN pip3 install wandb==0.15.12
 RUN pip3 install seaborn==0.13.0
@@ -37,8 +38,6 @@ RUN pip3 install diffusers==0.24.0
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y graphviz
 RUN apt-get install python3-tk -y
-
-RUN pip3 install jupyter_ai==2.6.0
 
 RUN set -x \
      && apt-get clean && rm -rf /var/lib/apt/lists/* \
