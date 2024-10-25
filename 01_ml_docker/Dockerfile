@@ -22,7 +22,6 @@ RUN pip3 install PDPbox==0.3.0
 # RUN pip3 install fastai==2.7.13
 RUN pip3 install spacy==3.7.2
 RUN pip3 install lightning==2.1.2
-RUN pip3 install wandb==0.15.12
 RUN pip3 install seaborn==0.13.0
 RUN pip3 install pyarrow==13.0.0
 RUN pip3 install graphviz==0.20.1
