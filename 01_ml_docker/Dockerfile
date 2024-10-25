@@ -39,6 +39,10 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y graphviz
 RUN apt-get install python3-tk -y
 
+RUN pip3 install wandb==0.18.5
+RUN pip3 install ultralytics==8.3.19
+
+
 RUN set -x \
      && apt-get clean && rm -rf /var/lib/apt/lists/* \
 	 && useradd -ms /bin/bash user \
