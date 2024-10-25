@@ -18,7 +18,6 @@ The TensorFlow version can be found [here](https://github.com/PXLAIRobotics/PXL_
 
 - PyTorch: v2.0.1
 - PyTorch Lightning: 2.0.9
-- FastAI: 2.7.12
 
 #### Machine Learning Libraries
 
