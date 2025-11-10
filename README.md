@@ -119,5 +119,10 @@ start_jupyter
 ```
 inside the container.
 
+## Troubleshooting
+Going into standby why the container is running may break CUDA, resulting in CUDA runtime errors, or a lack of available GPUs.
+You have to reboot to solve this issue.
+Avoid by never going into standby with a running container.
+
 ## Prebuilt image
 TBD
