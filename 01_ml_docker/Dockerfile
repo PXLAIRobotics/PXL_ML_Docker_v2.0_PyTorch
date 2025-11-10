@@ -9,38 +9,15 @@ RUN set -x \
 	&& apt-get install -y bash-completion \
     && apt-get install sudo -y
 
-RUN set -x \
-    && pip3 install --upgrade setuptools \
-    && pip3 install powerline-shell \
-    && pip3 install jupyter
-
 # Copy requirements.txt and install the Python packages
 COPY requirements.txt /tmp/requirements.txt
-RUN pip3 install --no-cache-dir --ignore-installed -r /tmp/requirements.txt
-
-RUN pip3 install PDPbox==0.3.0
-# RUN pip3 install fastai==2.7.13
-RUN pip3 install spacy==3.7.2
-RUN pip3 install lightning==2.1.2
-RUN pip3 install seaborn==0.13.0
-RUN pip3 install pyarrow==13.0.0
-RUN pip3 install graphviz==0.20.1
-RUN pip3 install treeinterpreter==0.2.3
-RUN pip3 install onnx==1.14.1 onnxruntime==1.16.1
-
-RUN pip3 install transformers==4.34.1
-RUN pip3 install datasets==2.14.5
-RUN pip3 install sentencepiece==0.1.99
-RUN pip3 install accelerate==0.23.0
-RUN pip3 install diffusers==0.24.0
+# Enable pip caching via BuildKit (recommended)
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install --ignore-installed -r /tmp/requirements.txt
 
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y graphviz
 RUN apt-get install python3-tk -y
-
-RUN pip3 install wandb==0.18.5
-RUN pip3 install ultralytics==8.3.19
-
 
 RUN set -x \
      && apt-get clean && rm -rf /var/lib/apt/lists/* \
@@ -48,8 +25,13 @@ RUN set -x \
 	 && echo "user:user" | chpasswd && adduser user sudo \
 	 && echo "user ALL=(ALL) NOPASSWD: ALL " >> /etc/sudoers
 
-# RUN pip3 uninstall -y psutil
-# RUN pip3 install psutil
+RUN pip3 uninstall -y psutil
+RUN pip3 install psutil
+
+# Install spaCy and the English model
+RUN pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1.tar.gz \
+    && python -m spacy link en_core_web_sm en
+
 
 USER user
 WORKDIR /home/user
@@ -68,5 +50,6 @@ RUN echo LS_COLORS=$LS_COLORS:\'di=1\;33:ln=36\' >> ~/.bashrc \
         && echo 'alias tmux="tmux -2"' >> ~/.bashrc \
         && echo 'PATH=~/bin:$PATH' >> ~/.bashrc \
         && touch ~/.sudo_as_admin_successful # To surpress the sudo message at run.
+
 
 CMD sudo service ssh start && /bin/bash
