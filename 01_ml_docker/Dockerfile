@@ -19,6 +19,8 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y graphviz
 RUN apt-get install python3-tk -y
 
+RUN apt-get update && apt-get install -y libgl1
+
 RUN set -x \
      && apt-get clean && rm -rf /var/lib/apt/lists/* \
 	 && useradd -ms /bin/bash user \
@@ -28,14 +30,11 @@ RUN set -x \
 RUN pip3 uninstall -y psutil
 RUN pip3 install psutil
 
-# Install spaCy and the English model
-RUN pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1.tar.gz \
-    && python -m spacy link en_core_web_sm en
-
-
 USER user
 WORKDIR /home/user
 RUN mkdir notebooks
+
+RUN python -m spacy download en_core_web_sm --direct
 
 RUN git clone https://github.com/jimeh/tmux-themepack.git ~/.tmux-themepack  \
         && git clone https://github.com/tmux-plugins/tmux-resurrect ~/.tmux-resurrect
