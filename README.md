@@ -122,7 +122,39 @@ inside the container.
 ## Troubleshooting
 Going into standby why the container is running may break CUDA, resulting in CUDA runtime errors, or a lack of available GPUs.
 You have to reboot to solve this issue.
-Avoid by never going into standby with a running container.
+
+Alternatively you can do the following:
+
+1. Create this file:
+```
+sudo nano /lib/systemd/system-sleep/docker-stop.sh
+```
+
+2. Paste this:
+
+```
+#!/bin/bash
+# /lib/systemd/system-sleep/docker-stop.sh
+# Gracefully stop and restart pxl_ml_container around suspend/resume.
+
+CONTAINER="pxl_ml_container"
+DOCKER="/usr/bin/docker"   # adjust if 'which docker' gives a different path
+
+case "$1" in
+  pre)
+    echo "[system-sleep] Suspending: stopping $CONTAINER..."
+    $DOCKER ps -q -f name="^${CONTAINER}$" | xargs -r $DOCKER stop
+    ;;
+esac
+```
+3. Make it executable
+
+```
+sudo chmod +x /lib/systemd/system-sleep/docker-stop.sh
+```
+
+This will automatically exit the container when going into standby.
+
 
 ## Prebuilt image
 TBD
